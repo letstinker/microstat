@@ -22,12 +22,14 @@ class ConfigStore():
         self.load_file()
 
     def check_save(self):
+        ''' Check if last_modify has been set and save if its time. '''
         if self.last_modify != 0 and (time.time() - self.last_modify) > 2:
             self.last_modify = 0
             print('Saving...')
             self.save()
     
     def queue_save(self):
+        ''' sets last_modify so check_save knows to check it and save if its time. '''
         self.last_modify = time.time()
 
     def load_file(self):
@@ -80,7 +82,7 @@ class ConfigStore():
             self.queue_save()
 
     def get(self, name):
-        ''' Gets a config value, if it cant, tries defaults, if it cant then None. '''
+        ''' Gets a config value, if it cant tries defaults, if it cant then None. '''
         return self.config.get(name, self.defaults.get(name, None))
 
     def get_all(self):

@@ -52,9 +52,9 @@ class MicroStat():
         # For debugging
         # self.CONFIG.reset()
 
-    '''
-                TEMP CODE
-    '''
+    #
+    # TEMP CODE
+    #
     def increase_desired_temp(self):
         return self.set_desired_temp(self.get_desired_temp()+1)
     def decrease_desired_temp(self):
@@ -65,9 +65,9 @@ class MicroStat():
     def get_desired_temp(self):
         return self.CONFIG.get('temp_desired')
 
-    '''
-                SYSTEM MODE CODE
-    '''
+    #
+    # SYSTEM MODE CODE
+    #
     def set_system_mode(self, mode):
         self.CONFIG.set('temp_mode', mode)
         return self.get_system_mode()
@@ -82,17 +82,17 @@ class MicroStat():
         prev_mode = prev_item(self.get_system_mode(), self.get_system_modes())
         return self.set_system_mode(prev_mode)
 
-    '''
-        CONTROL CODE
-    '''
+    #
+    # CONTROL CODE
+    #
     def get_sensed_temp(self):
         self.TEMP_SENSED = 72
         self.CONFIG.set('temp_sensed', self.TEMP_SENSED)
         return self.TEMP_SENSED
 
-    '''
-                MENU MODE CODE
-    '''
+    #
+    # MENU MODE CODE
+    #
     def set_menu_mode(self, mode):
         print('Setting menu mode tp', mode)
         self.CONFIG.set('menu_mode', mode)
@@ -102,9 +102,9 @@ class MicroStat():
     def get_menu_modes(self):
         return self.MENU_MODES
 
-    '''
-        BUTTON CODE
-    '''
+    #
+    # BUTTON CODE
+    #
     def check_which_buttons_pressed(self):
         UP_VALUE = self.BUTTON_UP.value()
         DOWN_VALUE = self.BUTTON_DOWN.value()
@@ -140,6 +140,9 @@ class MicroStat():
         else:
             return None
 
+    #
+    # Loop handlers
+    #
     def handle_temp_mode_loop(self, button):
         if button == 'UP':
             cur_desired_temp = self.increase_desired_temp()
@@ -161,6 +164,9 @@ class MicroStat():
             print('New system mode: {}'.format(cur_desired_mode))
 
 
+    #
+    # Main action handler
+    #
     def action_check(self):
         self.CONFIG.check_save()
 
@@ -175,6 +181,9 @@ class MicroStat():
         elif button and mode == 'SYSTEM':
             self.handle_system_mode_loop(button)
 
+#
+# This is only ran when the script is ran directly and is for testing purposes.
+#
 if __name__ == "__main__":
 
     ms = MicroStat()
