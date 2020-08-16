@@ -1,7 +1,8 @@
 import os
 import time
 import json
-
+import _thread
+from util import write_file
 
 class ConfigStore():
     config = {}
@@ -26,7 +27,6 @@ class ConfigStore():
         if self.last_modify != 0 and (time.time() - self.last_modify) > 2:
             self.last_modify = 0
             print('Saving...')
-            self.save()
     
     def queue_save(self):
         ''' sets last_modify so check_save knows to check it and save if its time. '''
@@ -49,12 +49,8 @@ class ConfigStore():
 
     def save(self):
         ''' Tries to save the file and throws an error if it can't. '''
-        try:
-            with open(self.config_file, 'w') as f:
-                f.write(json.dumps(self.config))
-                f.close()
-        except OSError as e:
-                print('Writing file error({}): {}'.format(e.errno, e.strerror))
+        kwargs = { 'file': self.config_file, 'data': json.dumps(self.config) }
+        _thread.start_new_thread(write_file, **kwargs)
 
     def reload(self):
         ''' Alias to load_file '''

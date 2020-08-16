@@ -19,6 +19,7 @@ def next_item(cur_item, item_list):
                 return item_list[0]
             else:
                 return item_list[k+1]
+    return None
 
 def prev_item(cur_item, item_list):
     for k,i in enumerate(item_list):
@@ -27,3 +28,13 @@ def prev_item(cur_item, item_list):
                 return item_list[len(item_list)-1]
             else:
                 return item_list[k-1]
+    return None
+
+def write_file(file, data):
+    try:
+        with open(file, 'w') as f:
+            f.write(data)
+            f.close()
+    except OSError as e:
+        print('Writing file error({}): {}'.format(e.errno, e.strerror))
+    return
